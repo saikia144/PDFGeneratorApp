@@ -1,7 +1,5 @@
 package com.pdf.generator.model;
 
-import java.util.Date;
-
 public class Player {
 	private Integer id;
 	private String name;
