@@ -71,6 +71,7 @@ public class PlayerController {
 
 	}
 	
+//	Just a demo in the demo branch
 	private void stats(JsonNode node) {
 	    ObjectMapper mapper = new ObjectMapper();
 	    
