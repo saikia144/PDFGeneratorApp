@@ -23,8 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdf.generator.model.Player;
 import com.pdf.generator.model.PlayerStatistics;
 
+//http://localhost:8081/players/details
 @RestController
-@RequestMapping("/player")
+@RequestMapping("/players")
 public class PlayerController {
 	@Value("${api.key}")
 	private String apiKey;
@@ -71,10 +72,9 @@ public class PlayerController {
 
 	}
 	
-//	Just a demo in the demo branch
-	private void stats(JsonNode node) {
+	private PlayerStatistics stats(JsonNode node) {
 	    ObjectMapper mapper = new ObjectMapper();
-	    
+	    PlayerStatistics ps;
 	    //JsonNode responseArray = node.get("response");
 	    for (JsonNode playerNode : node) {
 	        JsonNode statisticsArray = playerNode.get("statistics");
@@ -86,6 +86,7 @@ public class PlayerController {
 	            System.out.println(s);
 	        }
 	    }
+	    return null;
 	}
 
 
