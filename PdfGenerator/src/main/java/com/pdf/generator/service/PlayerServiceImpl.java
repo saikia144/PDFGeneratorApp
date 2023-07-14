@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -80,22 +80,21 @@ public class PlayerServiceImpl implements PlayerService {
 	private List<Player> processPlayerInfo(JsonNode node) throws FileNotFoundException, IOException {
 		List<Player> players = new ArrayList<>();
 		for (JsonNode playerNode : node) {
-			int playerId = playerNode.get("player").get("id").asInt();
-			String name = playerNode.get("player").get("lastname").asText();
-			String photo = playerNode.get("player").get("photo").asText();
 			PlayerStatistics ps = extractPlayerStats(playerNode.get("statistics"));
 
-			// String s = ImageUtil.imageDownloader(photo, name);
 			Player p = new Player();
-			p.setPid(playerId);
-			p.setLastname(name);
+			p.setName(playerNode.get("player").get("name").asText());
+			p.setAge(playerNode.get("player").get("age").asInt());
+			p.setBirthdate(playerNode.get("player").get("birth").get("date").asText());
+			p.setCountry(playerNode.get("player").get("nationality").asText());
+			p.setHeight(playerNode.get("player").get("height").asInt());
+			p.setWeight(playerNode.get("player").get("weight").asInt());
+			p.setPhoto(playerNode.get("player").get("photo").asText());
 			p.setStatistics(ps);
-			p.setPhoto(photo);
 
 			players.add(p);
 			//pdao.save(p); // Save
 		}
-
 		return players;
 	}
 
@@ -106,101 +105,28 @@ public class PlayerServiceImpl implements PlayerService {
 		for (JsonNode stats : playerStats) {
 			JsonNode cards = stats.get("cards");
 			JsonNode goals = stats.get("goals");
+			JsonNode shots = stats.get("shots");
+			JsonNode passes = stats.get("passes"); //$F{statistics.cards}.get("red")
+			JsonNode penalty = stats.get("penalty");
 
 			Map<String, Integer> cardMap = mapper.convertValue(cards, new TypeReference<Map<String, Integer>>() {});
-			Map<GoalType, Integer> goalMap = convertGoalMap(goals, mapper);
+			Map<String, Integer> shotmap = mapper.convertValue(shots, new TypeReference<Map<String, Integer>>() {});
+			Map<String, Integer> passMap = mapper.convertValue(passes, new TypeReference<Map<String, Integer>>() {});
+			Map<String, Integer> penaltyMap = mapper.convertValue(penalty, new TypeReference<Map<String, Integer>>() {} );
+			EnumMap<GoalType, Integer> egoalMap = mapper.convertValue(goals, new TypeReference<EnumMap<GoalType,Integer>>() {});
+			//Map<String, Integer> game = mapper.convertValue(games, new TypeReference<Map<String, Integer>>() {});
 
 			ps.setCards(cardMap);
-			ps.setGoals(goalMap);
+			ps.setGoals(egoalMap);
+			ps.setShots(shotmap);
+			ps.setPasses(passMap);
+
 		}
 		return ps;
 	}
 
-	private Map<GoalType, Integer> convertGoalMap(JsonNode goals, ObjectMapper mapper) {
-		Map<GoalType, Integer> goalMap = new HashMap<>();
-
-		Iterator<Map.Entry<String, JsonNode>> iterator = goals.fields();
-		while (iterator.hasNext()) {
-			Map.Entry<String, JsonNode> entry = iterator.next();
-			String goalTypeString = entry.getKey();
-			int goalValue = entry.getValue().asInt();
-
-			GoalType goalType = GoalType.fromString(goalTypeString);
-			if (goalType != null) {
-				goalMap.put(goalType, goalValue);
-			}
-		}
-		return goalMap;
-	}
-
-	//	public void generatePlayersReport(List<Player> players) {
-	//	    try {
-	//	       
-	//	        InputStream mainReportTemplate = getClass().getResourceAsStream("/demo.jrxml");
-	//
-	//	        InputStream subreportTemplate = getClass().getResourceAsStream("/stats.jrxml");
-	//
-	//	       
-	//	        JasperReport subreport = JasperCompileManager.compileReport(subreportTemplate);
-	//	        
-	//	        // Create a map of parameters to be passed to the report (if any)
-	//	        Map<String, Object> parameters = new HashMap<>();
-	//	        parameters.put("subreportTemplate", subreport);
-	//	        parameters.put("SUBREPORT_DIR", "classpath:/");
-	//	        // Create a JasperReport object from the main report template
-	//	        JasperReport mainReport = JasperCompileManager.compileReport(mainReportTemplate);
-	//
-	//	       
-	//	       
-	//	        // Create a JRBeanCollectionDataSource using the players list
-	//	        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(players);
-	//
-	//	        // Generate the JasperPrint object by filling the report with data
-	//	        JasperPrint jasperPrint = JasperFillManager.fillReport(mainReport, parameters, dataSource);
-	//
-	//	        // Export the JasperPrint object to a byte array in PDF format
-	//	        JasperExportManager.exportReportToPdfFile(jasperPrint,"player.pdf");
-	//
-	//	        // Save the PDF to a file or perform other actions as needed
-	//	        // ...
-	//
-	//	    } catch (JRException e) {
-	//	        // Handle exception accordingly
-	//	        e.printStackTrace();
-	//	    }
-	//	}
-
-
-	//	private void generatePlayersReport(List<Player> players) {
-	//		try {
-	//			// Load the JasperDesign from an XML file
-	//			InputStream inputStream = getClass().getResourceAsStream("/pdf.jrxml");
-	//			JasperDesign design = JRXmlLoader.load(inputStream);
-	//			// Compile the JasperDesign into a JasperReport object
-	//			JasperReport report = JasperCompileManager.compileReport(design);
-	//
-	//			// Set up parameters for the report, if needed
-	//			Map<String, Object> parameters = new HashMap<>();
-	//			//parameters.put("players", players);
-	//			// Add any necessary parameters
-	//
-	//			// Create a data source with the players' information
-	//			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(players);
-	//
-	//			// Fill the report with data and parameters
-	//			JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
-	//			
-	//			// Export the report to PDF
-	//			JasperExportManager.exportReportToPdfFile(print, "players_report.pdf");
-	//
-	//			System.out.println("PDF report generated successfully.");
-	//		} catch (JRException e) {
-	//			e.printStackTrace();
-	//		}
-	//	}
-
 	public void generatePlayersReport(List<Player> players) {
-		System.out.println("Inside generate method");
+		//System.out.println("Inside generate method");
 		try {
 			InputStream input = getClass().getResourceAsStream("/test.jrxml");
 			JasperDesign design = JRXmlLoader.load(input);
@@ -209,14 +135,24 @@ public class PlayerServiceImpl implements PlayerService {
 
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(players);
 			Map<String, Object> parameters = new HashMap<>();
+			//parameters.put("defaultValue", 0);
 
-			System.out.println(dataSource.getData());
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(print,"stat.pdf");
+			JasperExportManager.exportReportToPdfFile(print,"stats.pdf");
+
 			System.out.println("PDF generated");
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+

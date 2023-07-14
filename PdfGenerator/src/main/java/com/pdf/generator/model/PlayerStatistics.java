@@ -27,6 +27,7 @@ public class PlayerStatistics {
 	@MapKeyEnumerated(EnumType.STRING) // for enum. not sure
 	@MapKeyColumn(name = "goal_type")
 	@Column(name = "count")
+	//private Map<String, Integer> goals;
 	private Map<GoalType, Integer> goals; // Use enum as the map key type
 	
 	@ElementCollection
@@ -76,6 +77,8 @@ public class PlayerStatistics {
 	@MapKeyColumn(name = "penalty_type")
 	@Column(name = "count")
 	private Map<String, Integer> penalty;
+	
+
 
 	public Map<String, Integer> getSubstitutes() {
 		return substitutes;

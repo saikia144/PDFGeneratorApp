@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tree_1" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
+	<import value="com.pdf.generator.enums.GoalType"/>
+	<parameter name="defaultValue" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="pid" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
@@ -14,40 +18,195 @@
 	<field name="photo" class="java.lang.String"/>
 	<field name="statistics.cards" class="java.util.Map"/>
 	<field name="statistics.goals" class="java.util.Map"/>
-	<detail>
-		<band height="186">
-			<textField>
-				<reportElement x="150" y="95" width="100" height="20" uuid="ccd94373-01dc-491f-b1f1-ada0fe72778a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ink Free" size="16"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{lastname}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="95" width="100" height="20" uuid="412de59e-c9eb-4f7a-bd4f-223f5d9f29ac"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ink Free" size="16"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{statistics.cards}.get("red")]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="350" y="95" width="100" height="20" uuid="7efd2e61-3f95-4432-b7b7-853d25ebb05e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ink Free" size="16"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{statistics.cards}.get("yellow")]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement x="0" y="40" width="120" height="130" uuid="dba93b70-0450-4351-b24a-8ce59dbce4b6"/>
-				<imageExpression><![CDATA[$F{photo}]]></imageExpression>
-			</image>
+	<field name="statistics.passes" class="java.util.Map"/>
+	<title>
+		<band height="36">
 			<staticText>
-				<reportElement x="170" y="0" width="240" height="30" uuid="acc5dc03-c92d-4655-b2fa-f255e1d33838"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ink Free" size="24" isBold="true"/>
+				<reportElement x="150" y="0" width="260" height="30" uuid="9bd9b889-0a51-4997-9e00-cfe4577cd5e1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Eras Demi ITC" size="26" pdfFontName="/fonts/Inkfree.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Player Statistics]]></text>
 			</staticText>
 		</band>
+	</title>
+	<detail>
+		<band height="295" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="200" y="40" width="200" height="30" uuid="ccd94373-01dc-491f-b1f1-ada0fe72778a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="DejaVu Sans" size="14" pdfFontName="/fonts/Inkfree.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="40" width="130" height="135" uuid="dba93b70-0450-4351-b24a-8ce59dbce4b6"/>
+				<imageExpression><![CDATA[$F{photo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="200" y="75" width="100" height="30" uuid="58853233-bc36-4700-a48e-35c9aed69e79"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14" pdfFontName="/fonts/Inkfree.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{age}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="110" width="100" height="30" uuid="ed1017b3-09ef-42ea-8a00-e56eccca904d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14" pdfFontName="/fonts/Inkfree.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birthdate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="146" width="204" height="30" uuid="dc9c9a0c-b724-4866-b1fc-ac228b377860"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14" pdfFontName="/fonts/Inkfree.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{country}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="140" y="40" width="60" height="30" uuid="2f72edbd-23e1-48d8-8d3e-0e143eb45900"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" pdfFontName="/fonts/GOTHIC.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="75" width="60" height="30" uuid="8cfc4dc7-aabb-4be6-b905-7109cddf4f38"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" pdfFontName="/fonts/GOTHIC.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Age:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="146" width="60" height="30" uuid="12565cee-987c-4b58-83cb-788cd018f2cf"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="14" isBold="true" pdfFontName="/fonts/GOTHIC.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Country:]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="40" width="130" height="130" uuid="e765f541-710d-4f31-bf88-5108f10384f0"/>
+				<box padding="10">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<textField>
+				<reportElement x="3" y="210" width="100" height="30" uuid="102f5936-b151-4e4a-ac93-85e8bd55fac0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{statistics.goals}.get(GoalType.total)!=null?$F{statistics.goals}.get(GoalType.total): $P{defaultValue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="260" width="100" height="30" uuid="2366da43-a9c9-4829-840e-c2b29730b6e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{statistics.goals}.get(GoalType.assists)!=null?$F{statistics.goals}.get(GoalType.assists): $P{defaultValue}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="190" width="100" height="20" uuid="84708f40-7159-48b3-8516-87fffc8f21ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Goals]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="240" width="100" height="20" uuid="6dbcaf0f-4c55-4142-ad65-c43895039713"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assists]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="110" width="60" height="30" uuid="a5438864-e7af-435c-8ab5-39d25ef5d4b8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" pdfFontName="/fonts/GOTHIC.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DOB:]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="190" width="111" height="100" uuid="639e4437-68ef-4550-bc1b-7bc748a925f6"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="117" y="190" width="100" height="21" uuid="2b2a5ab1-87f3-4e3c-9e9d-34d0ca5b43f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Passes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="211" width="100" height="29" uuid="95ffa978-abb1-4a3f-9aff-52ea7862578d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{statistics.passes}.get("total")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="117" y="240" width="100" height="20" uuid="f30d72d3-6d41-472b-b180-c803f4ff17f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pass Accuracy]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="260" width="100" height="30" uuid="9bc7943b-dede-4d01-835b-c5b334014146"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{statistics.passes}.get("accuracy")]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="111" y="190" width="111" height="100" uuid="d62eed5e-db12-414a-a8d3-4cb14720ad19"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="222" y="190" width="111" height="100" uuid="ad5206f4-8c76-4e95-89a2-5dbb03c007a5"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="333" y="190" width="111" height="100" uuid="0120cefa-397c-4cbd-9903-b31b0ad8b577"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="443" y="190" width="111" height="100" uuid="f960312d-b745-42b9-a7d2-c08fb24dafe6"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+		</band>
 	</detail>
+	<pageFooter>
+		<band height="40">
+			<textField>
+				<reportElement x="220" y="10" width="100" height="30" uuid="c80326c6-06fd-40be-b3b1-6994cdc832c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 </jasperReport>
